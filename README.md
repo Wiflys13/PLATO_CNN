@@ -16,3 +16,15 @@ The objective of this project is to develop a CNN-based method for determining P
 * In-orbit calibration for ongoing adjustments during the mission.
 
 By automating focus temperature calibration, this project aims to improve the reliability and efficiency of the mission's focus system
+
+```
+├── images/                     # Sample images from ground tests
+├── data/                       # Data used for training and validation
+├── notebooks/                  # Jupyter notebooks for experiments and analyses
+├── src/                        # Source code for CNN model and preprocessing
+│   ├── model.py                # CNN architecture and training functions
+│   ├── preprocessing.py        # Data preprocessing scripts
+│   ├── train.py                # Training pipeline
+├── README.md                   # Project documentation
+└── requirements.txt            # Required packages and dependencies
+```
