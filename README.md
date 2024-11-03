@@ -18,7 +18,7 @@
 <img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
 
 </td>
-<td align="right">
+<td align="left">
 
 **Guillermo Mercant**  
 AIT Engineer at the CSIC Astrobiology Centre (CAB)  
