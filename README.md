@@ -1,7 +1,8 @@
 # Convolucional Neural Network for PLATO ESA Mission
 ![PLATO conceptual Image](images/Conceptual_Image.png)
 
-![Badge en Desarollo](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)![Last Update](https://img.shields.io/badge/Last_Update-October_2024-blue)
+![Badge In development](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)
+![Last Update](https://img.shields.io/badge/Last_Update-October_2024-blue)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 ## Author
