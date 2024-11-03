@@ -8,11 +8,6 @@
 ## Author
 <table>
 <tr>
-<td>
-
-**Guillermo Mercant**  
-<table>
-<tr>
 <td align="left">
 
 <img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
