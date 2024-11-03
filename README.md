@@ -11,14 +11,19 @@
 <td>
 
 **Guillermo Mercant**  
-AIT Engineer at the CSIC Astrobiology Centre (CAB)  
-[GitHub Profile](https://github.com/Wiflys13)  
-[guillermomercant@gmail.com](mailto:guillermomercant@gmail.com)
+<table>
+<tr>
+<td align="left">
+
+<img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
 
 </td>
 <td align="right">
 
-<img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
+**Guillermo Mercant**  
+AIT Engineer at the CSIC Astrobiology Centre (CAB)  
+[GitHub Profile](https://github.com/Wiflys13)  
+[guillermomercant@gmail.com](mailto:guillermomercant@gmail.com)
 
 </td>
 </tr>
