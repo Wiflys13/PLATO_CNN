@@ -6,12 +6,23 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 ## Author
+<table>
+<tr>
+<td>
 
 **Guillermo Mercant**  
 AIT Engineer at the CSIC Astrobiology Centre (CAB)  
-[Your Website or GitHub Profile](https://github.com/Wiflys13)  
-[Your Email Address](mailto:guillermomercant@gmail.com)
+[GitHub Profile](https://github.com/Wiflys13)  
+[guillermomercant@gmail.com](mailto:guillermomercant@gmail.com)
 
+</td>
+<td align="right">
+
+<img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
+
+</td>
+</tr>
+</table>
 Feel free to reach out for questions, collaborations, or feedback on this project!
 
 
@@ -51,6 +62,4 @@ By automating focus temperature calibration, this project aims to improve the re
 ### Running the model
 ### Results
 
-<p align="center">
-  <img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
-</p>
+
