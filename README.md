@@ -52,5 +52,5 @@ By automating focus temperature calibration, this project aims to improve the re
 ### Results
 
 <p align="center">
-  <img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="320">
+  <img src="images/plato_logo_320x320.png" alt="PLATO Logo Image" width="150">
 </p>
