@@ -50,9 +50,9 @@ By automating focus temperature calibration, this project aims to improve the re
 ├── data/                       # Data used for training and validation
 ├── notebooks/                  # Jupyter notebooks for experiments and analyses
 ├── src/                        # Source code for CNN model and preprocessing
-│   ├── model                   # CNN architecture and training functions
 │   ├── preprocessing           # Data preprocessing scripts
 │   ├── train                   # Training pipeline
+│   ├── model                   # CNN architecture and training functions
 ├── README.md                   # Project documentation
 └── requirements.txt            # Required packages and dependencies
 ```
