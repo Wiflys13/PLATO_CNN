@@ -1,14 +1,19 @@
 # classes.py
-
-import pandas as pd
 import os
 import glob
-from astropy.io import fits
-import numpy as np
 import re
 import time
 import pickle
-from config import BASE_DIR, OBSID_DIR, IMAGES_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from astropy.io import fits
+from scipy.interpolate import griddata
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+from scipy.stats import skew, kurtosis
+from .config import BASE_DIR, OBSID_DIR, IMAGES_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
+from .utils import load_preprocessed_images, save_dataframe_to_excel, plot_statistics_distribution
 
 class ImagePLATO:
     def __init__(self, model, image_type):
@@ -240,3 +245,88 @@ class ImagePLATO:
         with open(save_path, "wb") as f:
             pickle.dump(total_list, f)
         print(f"Pickle file saved at: {save_path}")
+        
+        
+class ImageAnalysis:
+    def __init__(self, model, image_type):
+        """
+        Initialize the ImageAnalysis class.
+
+        Args:
+            model (str): The flight model (e.g., 'FM3', 'FM16').
+            image_type (str): The type of images (e.g., 'Plateaux', 'BFT').
+        """
+        self.model = model
+        self.image_type = image_type
+        self.analysis_dir = os.path.join('data', 'analysis', f'{model}_{image_type}')
+        os.makedirs(self.analysis_dir, exist_ok=True)
+
+    def get_max_eef_per_fov(self, preprocessed_images):
+        """Get the maximum EEF per FOV."""
+        max_per_fov = {}
+        temp_sum = {}
+        temp_count = {}
+
+        for image in preprocessed_images:
+            obsid = image['obsid']
+            fov_number = image['fov_numero']
+            eef = image['eef']
+            temperature = image['Temperatura_TRP1']
+            key = (obsid, fov_number)
+
+            if key not in max_per_fov or eef > max_per_fov[key]['eef']:
+                max_per_fov[key] = image
+
+            temp_sum[obsid] = temp_sum.get(obsid, 0) + temperature
+            temp_count[obsid] = temp_count.get(obsid, 0) + 1
+
+        avg_temp_per_obsid = {
+            obsid: temp_sum[obsid] / temp_count[obsid]
+            for obsid in temp_sum
+        }
+
+        for image in max_per_fov.values():
+            image['avg_temperature'] = avg_temp_per_obsid[image['obsid']]
+
+        return list(max_per_fov.values())
+
+    def calculate_avg_per_obsid(self, max_eef_per_fov):
+        """Calculate the average EEF per OBSID."""
+        avg_per_obsid = {}
+
+        for image in max_eef_per_fov:
+            obsid = image['obsid']
+            eef_max = image['eef']
+            avg_temp = image['avg_temperature']
+
+            if obsid not in avg_per_obsid:
+                avg_per_obsid[obsid] = {'avg_temperature': avg_temp, 'eef_max_list': []}
+
+            avg_per_obsid[obsid]['eef_max_list'].append(eef_max)
+
+        for obsid, data in avg_per_obsid.items():
+            data['avg_eef'] = np.mean(data['eef_max_list'])
+            del data['eef_max_list']
+
+        return pd.DataFrame.from_dict(avg_per_obsid, orient='index').reset_index()
+
+    def fit_and_find_maximum(self, df):
+        """Fit a polynomial curve and find the maximum."""
+        coefficients = np.polyfit(df['avg_temperature'], df['avg_eef'], 4)
+        x = np.linspace(df['avg_temperature'].min(), df['avg_temperature'].max(), 100)
+        y_fitted = np.polyval(coefficients, x)
+        x_max = x[np.argmax(y_fitted)]
+        y_max = np.max(y_fitted)
+
+        plt.scatter(df['avg_temperature'], df['avg_eef'], color='red')
+        plt.plot(x, y_fitted, color='darkgrey', linestyle='-', label='4th Degree Polynomial Fit')
+        plt.xlabel('Temperature [˚C]')
+        plt.ylabel('EEF 2x2/10x10')
+        plt.xticks(range(-90, -65, 5))
+        plt.yticks(range(20, 105, 10))
+        plt.axvline(x_max, color='black', linestyle='--', label=f'BFT: T={x_max:.1f} ˚C')
+        plt.legend()
+        plt.savefig(os.path.join(self.analysis_dir, f'{self.model}_{self.image_type}_BestFocusTemperature_4thDegree.png'))
+        plt.show()
+
+        return x_max, y_max

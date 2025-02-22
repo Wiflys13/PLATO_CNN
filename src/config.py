@@ -1,8 +1,9 @@
 # Rutas base
-
 BASE_DIR = 'data/'
 OBSID_DIR = BASE_DIR + 'OBSID/'
+IMAGES_DIR = BASE_DIR + 'images/' 
 PREPROCESSED_IMAGES_DIR = BASE_DIR + 'processed/'
+ANALYSIS_DIR = BASE_DIR + 'analysis/'
 
 # Prefijos de archivos según el modelo de vuelo
 PREFIXES = {

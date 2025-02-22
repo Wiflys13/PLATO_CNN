@@ -89,7 +89,7 @@ These instructions will help you set up and run the PLATO_CNN project on your lo
 ### Running the model
 Run the main:
 ```
-python src/main.py
+python -m src/main.py
 ```
 
 ### Results
