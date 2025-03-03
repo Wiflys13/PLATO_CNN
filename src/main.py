@@ -1,9 +1,9 @@
 # src/main.py
 
 import os
-from src.classes import ImageAnalysis
-from src.utils import load_preprocessed_images, plot_statistics_distribution
-from src.config import PREFIXES, OBSID_LISTS
+from .classes import ImageAnalysis
+from .utils import load_preprocessed_images
+from .config import PREFIXES, OBSID_LISTS
 
 def analyze_model_and_image_type(model, image_type):
     """
@@ -32,7 +32,7 @@ def analyze_model_and_image_type(model, image_type):
     x_max, y_max = analysis.fit_and_find_maximum(avg_per_obsid)
 
     # Plot statistics distribution
-    std_x, std_y = plot_statistics_distribution(max_eef_per_fov, analysis.analysis_dir, model, image_type)
+    std_x, std_y = analysis.plot_statistics_distribution(max_eef_per_fov, analysis.analysis_dir, model, image_type)
 
     print(f"BFT for {model} - {image_type}: T = {x_max:.1f} ± {std_x:.1f} °C, EEF = {y_max:.1f} ± {std_y:.1f}%")
 

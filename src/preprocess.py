@@ -1,24 +1,9 @@
-# src/utils.py
-
 import os
 import time
 import pickle
 import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-from .config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR  # Import necessary configurations
+from .config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR, PRUEBA  # Import necessary configurations
 from .classes import ImagePLATO  
-
-def load_preprocessed_images(file_path):
-    """Load preprocessed images from a pickle file."""
-    with open(file_path, 'rb') as f:
-        return pickle.load(f)
-
-def save_dataframe_to_excel(df, file_path):
-    """Save a DataFrame to an Excel file."""
-    df.to_excel(file_path, index=False)
 
 def preprocess_obsids(model_key: str, image_type: str) -> None:
     """
@@ -126,7 +111,7 @@ def preprocess_obsids(model_key: str, image_type: str) -> None:
     output_filename = f"{model_key}_{image_type}_images.pkl"
 
     # Define the path to save the pickle file
-    PICKLE_SAVE_PATH = os.path.join(PREPROCESSED_IMAGES_DIR, output_filename)
+    PICKLE_SAVE_PATH = os.path.join(PRUEBA, output_filename)
 
     # Save the total list of processed images as a pickle file
     with open(PICKLE_SAVE_PATH, "wb") as f:

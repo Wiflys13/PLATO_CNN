@@ -1,7 +1,6 @@
 # classes.py
 import os
 import glob
-import re
 import time
 import pickle
 import pandas as pd
@@ -9,11 +8,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from astropy.io import fits
-from scipy.interpolate import griddata
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-from scipy.stats import skew, kurtosis
-from .config import BASE_DIR, OBSID_DIR, IMAGES_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
-from .utils import load_preprocessed_images, save_dataframe_to_excel, plot_statistics_distribution
+from .config import OBSID_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
 
 class ImagePLATO:
     def __init__(self, model, image_type):
@@ -36,7 +31,7 @@ class ImagePLATO:
                 df = pd.read_csv(csv_path)
                 selected_columns = ['timestamp', 'GTCS_TRP1_T_AVG', 'GTCS_TRP22_T_AVG']
                 new_df = df[selected_columns].copy()
-                new_df['timestamp'] = pd.to_datetime(new_df['timestamp']).dt.floor('S')
+                new_df['timestamp'] = pd.to_datetime(new_df['timestamp']).dt.floor('s')
                 reduced_df = new_df.groupby('timestamp', as_index=False).first()
                 reduced_df['obsid'] = obsid
                 processed_dfs.append(reduced_df)
@@ -60,7 +55,7 @@ class ImagePLATO:
                         if 'IMAGE' in extension.name and extension.data is not None:
                             date_time_str = hdulist[0].header['DATE-OBS']
                             date_time_pd = pd.to_datetime(date_time_str)
-                            truncated_date_time = date_time_pd.floor('S')
+                            truncated_date_time = date_time_pd.floor('s')
                             image_array = np.array(extension.data)
                             results.append({
                                 'obsid': obsid,
@@ -330,3 +325,33 @@ class ImageAnalysis:
         plt.show()
 
         return x_max, y_max
+    
+    def plot_statistics_distribution(df, analysis_dir, model, image_type):
+        """Plot the distribution of statistics."""
+        plt.figure(figsize=(8, 6))
+        sns.violinplot(y=df['x_max'], color='skyblue')
+        median_x = df['x_max'].median()
+        ci_x = sns.utils.ci(df['x_max'], which=95)
+        plt.axhline(y=median_x, color='skyblue', linestyle='--', label=f'Median: {median_x:.1f}')
+        plt.fill_between(x=[-2, 2], y1=ci_x[0], y2=ci_x[1], color='lightgray', alpha=0.3, label=f'95% CI: [{ci_x[0]:.1f}, {ci_x[1]:.1f}]')
+        plt.ylabel('Temperature [°C]', fontsize=16)
+        plt.legend(fontsize=14)
+        plt.xlim(-1, 1)
+        plt.tight_layout()
+        plt.savefig(os.path.join(analysis_dir, f'{model}_{image_type}_BFT_Distribution.png'))
+        plt.show()
+
+        plt.figure(figsize=(8, 6))
+        sns.violinplot(y=df['y_max'], color='salmon')
+        median_y = df['y_max'].median()
+        ci_y = sns.utils.ci(df['y_max'], which=95)
+        plt.axhline(y=median_y, color='salmon', linestyle='--', label=f'Median: {median_y:.1f}')
+        plt.fill_between(x=[-2, 2], y1=ci_y[0], y2=ci_y[1], color='lightgray', alpha=0.3, label=f'95% CI: [{ci_y[0]:.1f}, {ci_y[1]:.1f}]')
+        plt.ylabel('EEF (%)', fontsize=16)
+        plt.legend(fontsize=14)
+        plt.xlim(-1, 1)
+        plt.tight_layout()
+        plt.savefig(os.path.join(analysis_dir, f'{model}_{image_type}_EEF_Distribution.png'))
+        plt.show()
+
+        return df['x_max'].std(), df['y_max'].std()
