@@ -1,6 +1,7 @@
 import os
 import time
 import pickle
+from multiprocessing import Pool
 import pandas as pd
 from .config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR, PRUEBA  # Import necessary configurations
 from .classes import ImagePLATO  
@@ -71,57 +72,34 @@ def preprocess_single_obsid(obsid: int, model_key: str, image_type: str) -> list
 
     return cropped_images_with_eef
 
+def process_single_obsid_parallel(obsid: int, model_key: str, image_type: str) -> list:
+    return preprocess_single_obsid(obsid, model_key, image_type)
 
-def process_all_obsids(model_key: str, image_type: str) -> None:
-    """
-    Processes all OBSIDs for a given model and image type by calling `preprocess_single_obsid` for each OBSID.
-    
-    Args:
-        model_key (str): The model key used to get the prefix from `config.py`.
-        image_type (str): The type of image (e.g., 'Plateaux' or 'BFT').
-    
-    Returns:
-        None: The function saves the results in a pickle file but does not return anything.
-    """
-    # Retrieve the OBSID list and prefix based on the provided model key and image type
+def process_all_obsids_parallel(model_key: str, image_type: str) -> None:
     obsid_list = OBSID_LISTS.get(f'{model_key}_{image_type}', [])
     prefix = PREFIXES.get(model_key, '')
 
-    # Check if both the OBSID list and prefix were successfully retrieved
     if not obsid_list or not prefix:
         raise ValueError(f"Invalid model or image type: {model_key}, {image_type}. Please ensure the model and type exist in both OBSID_LISTS and PREFIXES.")
 
-    # List to store the final results
     total_list = []
-
-    # Start time for processing
     start_time = time.time()
 
-    # Iterate over each OBSID in the list
-    for obsid in obsid_list:
-        # Process a single OBSID
-        processed_images = preprocess_single_obsid(obsid, model_key, image_type)
-        total_list.extend(processed_images)
+    # Usar Pool de Multiprocessing para paralelizar
+    with Pool() as pool:
+        total_list = pool.starmap(process_single_obsid_parallel, [(obsid, model_key, image_type) for obsid in obsid_list])
 
-        # Free memory after each OBSID processing
-        del processed_images
-        print(f"Processed OBSID {obsid}.\n")
+    # Concatenar las imágenes procesadas
+    total_list = [image for sublist in total_list for image in sublist]
 
-    # Convert the results into a DataFrame (if needed for further processing)
-    df_total = pd.DataFrame(total_list)
-
-    # Calculate the total execution time
+    # Calcular el tiempo total de ejecución
     total_execution_time = time.time() - start_time
     execution_minutes = int(total_execution_time // 60)
     execution_seconds = int(total_execution_time % 60)
 
     print(f"Total execution time: {execution_minutes} minutes, {execution_seconds} seconds.")
 
-    # Verifica si la carpeta 'prueba' existe, y si no, créala
-    if not os.path.exists(PRUEBA):
-        os.makedirs(PRUEBA)
-
-    # Ahora puedes guardar el archivo pickle sin problema
+    # Guardar los resultados en un archivo pickle
     output_filename = f"{model_key}_{image_type}_images.pkl"
     PICKLE_SAVE_PATH = os.path.join(PRUEBA, output_filename)
 

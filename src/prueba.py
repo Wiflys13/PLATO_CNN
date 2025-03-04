@@ -1,3 +1,3 @@
-from .preprocess import preprocess_obsids
+from .preprocess import process_all_obsids
 
-preprocess_obsids('FM3', 'Plateaux')
+process_all_obsids('FM3', 'Plateaux')
