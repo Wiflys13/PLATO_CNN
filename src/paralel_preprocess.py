@@ -3,8 +3,8 @@ import time
 import pickle
 from multiprocessing import Pool
 import pandas as pd
-from .config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR, PRUEBA  # Import necessary configurations
-from .classes import ImagePLATO  
+from config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR, PRUEBA  # Import necessary configurations
+from classes import ImagePLATO  
 
 def preprocess_single_obsid(obsid: int, model_key: str, image_type: str) -> list:
     """
@@ -101,7 +101,7 @@ def process_all_obsids_parallel(model_key: str, image_type: str) -> None:
 
     # Guardar los resultados en un archivo pickle
     output_filename = f"{model_key}_{image_type}_images.pkl"
-    PICKLE_SAVE_PATH = os.path.join(PRUEBA, output_filename)
+    PICKLE_SAVE_PATH = os.path.join(PREPROCESSED_IMAGES_DIR, output_filename)
 
     with open(PICKLE_SAVE_PATH, "wb") as f:
         pickle.dump(total_list, f)

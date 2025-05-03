@@ -8,8 +8,8 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from .config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR  # Import necessary configurations
-from .classes import ImagePLATO  
+from config import OBSID_DIR, PREFIXES, OBSID_LISTS, PREPROCESSED_IMAGES_DIR  # Import necessary configurations
+from classes import ImagePLATO  
 
 def load_preprocessed_images(file_path):
     """Load preprocessed images from a pickle file."""

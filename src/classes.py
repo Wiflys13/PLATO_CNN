@@ -9,7 +9,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from astropy.io import fits
-from .config import OBSID_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
+from config import OBSID_DIR, PREPROCESSED_IMAGES_DIR, PREFIXES, OBSID_LISTS
 
 class ImagePLATO:
     def __init__(self, model, image_type):

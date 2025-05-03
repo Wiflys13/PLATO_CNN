@@ -1,9 +1,9 @@
 # src/main.py
 
 import os
-from .classes import ImageAnalysis
-from .utils import load_preprocessed_images
-from .config import PREFIXES, OBSID_LISTS
+from classes import ImageAnalysis
+from utils import load_preprocessed_images
+from config import PREFIXES, OBSID_LISTS
 
 def analyze_model_and_image_type(model, image_type):
     """
