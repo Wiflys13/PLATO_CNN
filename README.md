@@ -2,7 +2,7 @@
 ![PLATO conceptual Image](images/Conceptual_Image.png)
 
 ![Badge In development](https://img.shields.io/badge/STATUS-In%20development-green)
-![Last Update](https://img.shields.io/badge/Last_Update-October_2024-blue)
+![Last Update](https://img.shields.io/badge/Last_Update-October_2025-blue)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 ## Author
