@@ -48,21 +48,23 @@ By automating focus temperature calibration, this project aims to improve the re
 ```
 /PLATO_CNN
 │
-├── bibliography/        # Contiene documentos de referencia (PDFs, artículos, etc.)
-├── Docs/                # Documentación del proyecto (README, guías, etc.)
-├── images/              # Imágenes relacionadas con el proyecto (diagramas, gráficos, etc.)
-├── src/                 # Código fuente del proyecto
-│   ├── classes.py       # Clase ImagePLATO con la lógica de preprocesamiento
-│   ├── config.py        # Configuraciones (rutas, prefijos, listas de OBSIDs)
-│   ├── main.py          # Punto de entrada del programa
-│   ├── utils/           # Funciones auxiliares (si las hay)
-│   └── tests/           # Pruebas unitarias (opcional)
-├── data/                # Datos del proyecto
-│   ├── OBSID/           # Datos crudos (archivos CSV y FITS)
-│   └── processed/       # Datos preprocesados (resultados)
-├── models/              # Modelos entrenados (CNN, pesos, etc.)
-├── requirements.txt     # Dependencias del proyecto
-└── README.md            # Documentación principal del repositorio
+├── bibliography/        # Contains reference documents (PDFs, articles, etc.)
+├── Docs/                # Project documentation (README, guides, etc.)
+├── images/              # Images related to the project (diagrams, graphs, etc.)
+├── src/                 # Project source code
+│   ├── classes.py       # ImagePLATO class with pre-processing logic
+│   ├── config.py        # Configurations (paths, prefixes, OBSID lists)
+│   ├── main.py          # Programme entry point
+│   ├── utils/           # Auxiliary functions (if any)
+│   └── tests/           # Unit tests (optional)
+├── data/                # Project data
+│   ├── OBSID/           # Raw data (CSV and FITS files)
+│   └── processed/       # Preprocessed data (results)
+├── models/              # Trained models (CNN, weights, etc.)
+├── requirements.txt     # Project dependencies
+└── README.md            # Main documentation for the repository
+
+Translated with DeepL.com (free version)
 ```
 
 ## Getting Started
